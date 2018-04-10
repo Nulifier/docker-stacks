@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  dokuwiki:
+    image: bitnami/dokuwiki:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: volume
+        source: dokuwiki-data
+        target: /bitnami
+        volume:
+          nocopy: true
+    deploy:
+      mode: replicated
+      replicas: 1
+
+volumes:
+  dokuwiki-data:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/dokuwiki
