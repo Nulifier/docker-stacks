@@ -1,0 +1,59 @@
+version: '3.2'
+
+services:
+  influxdb:
+    image: library/influxdb:latest
+    ports:
+      - "8086:8086"
+    networks:
+      - influxdb
+    volumes:
+      - influx-data:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: "telegraf"
+      INFLUXDB_HTTP_AUTH_ENABLED: "true"
+      INFLUXDB_ADMIN_USER: "admin"
+      INFLUXDB_ADMIN_PASSWORD: "2Y2Gq9nA2sKRninZ"
+      INFLUXDB_USER: "user"
+      INFLUXDB_USER_PASSWORD: "IjTIvETuMTf0mO3g"
+  chronograf:
+    image: library/chronograf:latest
+    ports:
+      - "8888:8888"
+    networks:
+      - influxdb
+    volumes:
+      - chronograf-data:/var/lib/chronograf
+    environment:
+      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_USERNAME: "user"
+      INFLUXDB_PASSWORD: "IjTIvETuMTf0mO3g"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - influxdb
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "2Y2Gq9nA2sKRninZ"
+
+networks:
+  influxdb:
+
+volumes:
+  influx-data:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/influx
+  chronograf-data:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/chronograf
+  grafana-data:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/grafana
+
