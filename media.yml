@@ -1,6 +1,19 @@
 version: '3.2'
 
 services:
+  sonarr:
+    image: linuxserver/sonarr
+    deploy:
+      replicas: 1
+    ports:
+      - "8989:8989"
+    volumes:
+      - sonarr:/config
+      - downloads:/downloads
+      - tv:/tv
+    environment:
+      TZ: America/Edmonton
+  
   radarr:
     image: linuxserver/radarr
     deploy:
@@ -15,6 +28,10 @@ services:
       TZ: America/Edmonton
 
 volumes:
+  sonarr:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/sonarr
   radarr:
     driver: nfs
     driver_opts:
