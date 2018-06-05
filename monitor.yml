@@ -3,6 +3,8 @@ version: '3.2'
 services:
   influxdb:
     image: library/influxdb:latest
+    deploy:
+      replicas: 1
     ports:
       - "8086:8086"
     networks:
@@ -18,6 +20,8 @@ services:
       INFLUXDB_USER_PASSWORD: "IjTIvETuMTf0mO3g"
   chronograf:
     image: library/chronograf:latest
+    deploy:
+      replicas: 1
     ports:
       - "8888:8888"
     networks:
@@ -30,6 +34,8 @@ services:
       INFLUXDB_PASSWORD: "IjTIvETuMTf0mO3g"
   grafana:
     image: grafana/grafana:latest
+    deploy:
+      replicas: 1
     ports:
       - "3000:3000"
     networks:
