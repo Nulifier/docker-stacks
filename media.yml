@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+  radarr:
+    image: linuxserver/radarr
+    ports:
+      - "7878:7878"
+    volumes:
+      - radarr:/config
+      - downloads:/downloads
+      - vault:/movies
+    environment:
+      TZ: America/Edmonton
+
+volumes:
+  radarr:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/radarr
+  downloads:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/downloads
+  vault:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/vault/Movies
