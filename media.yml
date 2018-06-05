@@ -3,6 +3,8 @@ version: '3.2'
 services:
   radarr:
     image: linuxserver/radarr
+    deploy:
+      replicas: 1
     ports:
       - "7878:7878"
     volumes:
