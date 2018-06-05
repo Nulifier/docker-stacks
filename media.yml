@@ -16,8 +16,10 @@ services:
       - "32413:32413/udp"
       - "32414:32414/udp"
     volumes:
-      - sonarr:/config
+      - plex:/config
+      - plex-transcode:/transcode
       - downloads:/downloads
+      - movies:/movies
       - tv:/tv
     environment:
       HOSTNAME: "plex"
