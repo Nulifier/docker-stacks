@@ -10,7 +10,7 @@ services:
     volumes:
       - radarr:/config
       - downloads:/downloads
-      - vault:/movies
+      - movies:/movies
     environment:
       TZ: America/Edmonton
 
@@ -23,7 +23,11 @@ volumes:
     driver: nfs
     driver_opts:
       share: 10.0.0.35:/mnt/tank/downloads
-  vault:
+  movies:
     driver: nfs
     driver_opts:
       share: 10.0.0.35:/mnt/tank/vault/Movies
+  tv:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/vault/TV
