@@ -1,6 +1,30 @@
 version: '3.2'
 
 services:
+  plex:
+    image: plexinc/pms-docker:plexpass
+    deploy:
+      replicas: 1
+    ports:
+      - "32400:32400/tcp"
+      - "3005:3005/tcp"
+      - "8324:8324/tcp"
+      - "32469:32469/tcp"
+      - "1900:1900/udp"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+    volumes:
+      - sonarr:/config
+      - downloads:/downloads
+      - tv:/tv
+    environment:
+      HOSTNAME: "plex"
+      TZ: "America/Edmonton"
+      PLEX_CLAIM: "claim-kTnqpBSusu4qpuPU7p21"
+      ADVERTISE_IP: "http://10.0.0.50:32400"
+
   sonarr:
     image: linuxserver/sonarr
     deploy:
@@ -40,6 +64,14 @@ services:
       TZ: America/Edmonton
 
 volumes:
+  plex:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/plex
+  plex-transcode:
+    driver: nfs
+    driver_opts:
+      share: 10.0.0.35:/mnt/tank/docker/plex-transcode
   sonarr:
     driver: nfs
     driver_opts:
